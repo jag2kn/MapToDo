@@ -8,3 +8,6 @@ platforms/android/CordovaLib/ant-build
 platforms/android/CordovaLib/ant-gen
 platforms/android/local.properties
 platforms/android/CordovaLib/local.properties
+
+
+*~
