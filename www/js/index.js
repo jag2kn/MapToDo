@@ -15,16 +15,15 @@
  * KIND, either express or implied.  See the License for the
  * specific language governing permissions and limitations
  * under the License.
- */
 function initializeMap() {
     
 }
+ */
 var app = {
     // Application Constructor
     initialize: function() {
         this.bindEvents();
         console.log("Inicializando");
-        
     },
     // Bind Event Listeners
     //
@@ -32,6 +31,7 @@ var app = {
     // 'load', 'deviceready', 'offline', and 'online'.
     bindEvents: function() {
         document.addEventListener('deviceready', this.onDeviceReady, false);
+        //alert("");
     },
     // deviceready Event Handler
     //
@@ -39,7 +39,14 @@ var app = {
     // function, we must explicitly call 'app.receivedEvent(...);'
     onDeviceReady: function() {
         app.receivedEvent('deviceready');
-        initializeMap();
+        //initializeMap();
+        a = localStorage.getItem('llave');
+        if (a==undefined){
+        	a=0;
+        }else{
+        	a++;
+        }
+     	localStorage.setItem('llave', a);
     },
     // Update DOM on a Received Event
     receivedEvent: function(id) {

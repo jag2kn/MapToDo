@@ -26,12 +26,6 @@
         <link rel="stylesheet" type="text/css" href="css/index.css" />
         <meta name="msapplication-tap-highlight" content="no" />
         
-        <!-- link rel="stylesheet" type="text/css" href="css/leaflet.css" />
-		<script type="text/javascript" src="js/leaflet.js"></script - - >
-		<link rel="stylesheet" href="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.css" />
-		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
-		<script src="http://code.jquery.com/mobile/1.4.5/jquery.mobile-1.4.5.min.js"></script -->
-
 		<script src="http://code.jquery.com/jquery-1.11.1.min.js"></script>
 		
         
@@ -43,45 +37,65 @@
 			}
 			html, body, #map {
 				height: 100%;
+				
 			}
-			#irMapa{
-				display:none;
+			body{
+				margin: 5px, 5px;
 			}
-			
 		</style>
     </head>
     <body>
-        
-        <h1>MapToDo</h1>
-        Aplicación para almacenar tareas por hacer en los mapas<hr>
-        
-        <div id="irMapa">
-	        <a href="mapa.html">Ir al mapa</a>
-        </div>
-        <div>
-        	Cargando información .....
-        </div>
-        
+		<h1>Almacenando nuevo punto</h1>
+		
+		<form>
+			<input type="hidden" name="op" value="nuevo" />
+			Latitud: <input type="text" id="lat" name="lat"/><br>
+			Longitud: <input type="text" id="lng" name="lng"/><br>
+			Titulo: <input type="text" id="titulo" name="titulo"/><br>
+			Descripción: <textarea id="descripcion" name="descripcion"></textarea>
+			<input type="submit" id="guardar" value="Guardar" />
+		</form>
+			<a href="index.html">Cancelar</a>
+		
         
         <script>
-        
-        	$(function(){
-				var postData = {"op":"todos"};
 
-				$.ajax({
-					type: "POST",
-					data: postData,
-					url: "http://z.joorge.com/maptodo/servicios.php",
-					success: function(data){
-						alert("Cargando puntos almacenados");
-						localStorage.setItem('points', data);
-						window.location.replace("mapa.html");
-					},
-					error: function(){
-						alert("Error cargando puntos almacenados, el servidor da una respuesta con error."); 
-					}
-				});        
-        	});
+			$(function(){
+				$('form').submit(function(){
+					/*
+					var postData = {
+							"lat":$("#lat").val(),
+							"lng":$("#lng").val(),
+							"titulo":$("#titulo").val(),
+							"descripcion":$("#descripcion").val(),
+						};
+						*/
+					var postData = $(this).serialize();
+
+					//alert("Almacenando datos: "+$("#titulo").val());
+
+					$.ajax({
+						type: "POST",
+						data: postData,
+						url: "http://z.joorge.com/maptodo/servicios.php",
+						success: function(data){
+							alert("Punto almacenado correctamente");
+							window.location.replace("index.html");
+						},
+						error: function(){
+							alert("Ocurrio un error almacenando el punto");
+							window.location.replace("index.html");
+						}
+					});
+					return false;
+				});
+			});
+	        function paginaCargada(){
+	        	$("#lat").val(localStorage.getItem('point_lat'));
+	        	$("#lng").val(localStorage.getItem('point_lng'));
+	        	
+	        }
+        	document.addEventListener('deviceready', paginaCargada, false);
         </script>
         
         <script type="text/javascript" src="cordova.js"></script>
