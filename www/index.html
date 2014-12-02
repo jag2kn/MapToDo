@@ -44,9 +44,6 @@
 			html, body, #map {
 				height: 100%;
 			}
-			#irMapa{
-				display:none;
-			}
 			
 		</style>
     </head>
@@ -58,24 +55,49 @@
         <div id="irMapa">
 	        <a href="mapa.html">Ir al mapa</a>
         </div>
-        <div>
+        <div id="cargando">
         	Cargando información .....
         </div>
-        
+        <div id="informacion">
+        	<h2>Información general</h2>
+        		Esta aplicación permite hacer un seguimiento de sitios a visitar, e ir descartando los sitios visitados<br>
+        		Muestra el punto en donde me encuento y los puntos anteriormente cargados, también muestra un radio de 500 metros para ver cuales son los puntos cercanos
+        		<img src="img/puntos.png" />
+        	<h3>Agregar un punto</h3>
+        		Para agregar un punto de click en el mapa, coloque un titulo y una descripción
+        	<h3>Marcar como hecho un punto</h3>
+        		Para marcar un punto como hecho simplemente de click sostenido y arrastrelo hacia cualquier dirección, con esto el punto sera quitado de la lista de tareas a realizar
+        		<img src="img/borrar.png" />
+        	
+        </div>
         
         <script>
         
         	$(function(){
 				var postData = {"op":"todos"};
+				$("#irMapa").hide();
+
 
 				$.ajax({
 					type: "POST",
 					data: postData,
 					url: "http://z.joorge.com/maptodo/servicios.php",
 					success: function(data){
-						alert("Cargando puntos almacenados");
+						alert("Cargando puntos descargados");
 						localStorage.setItem('points', data);
-						window.location.replace("mapa.html");
+						$("#cargando").hide();
+						$("#irMapa").show();
+						
+						/*
+						puntos = data.split('|');
+						texto = "Puntos:<ul>";
+						for(i=0;i<puntos.length;i++){
+							a= JSON.parse(puntos[i]);
+							texto = texto+"<li><strong>"+a["titulo"]+" : </strong> "+a["descripcion"]+"</li>";
+						}
+						texto = texto+"</ul>";
+						$("#informacion").html(texto);
+						*/
 					},
 					error: function(){
 						alert("Error cargando puntos almacenados, el servidor da una respuesta con error."); 

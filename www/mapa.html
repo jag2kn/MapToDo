@@ -58,6 +58,10 @@
 				id: 'examples.map-i875mjb7'
 			}).addTo(map);
 
+			function deletePolygon(myid) {
+				map.removeLayer(myid);
+				return false;
+			}
 			function onLocationFound(e) {
 				puntos = localStorage.getItem('points').split('|');
 
@@ -70,10 +74,21 @@
 				for(i=0;i<puntos.length;i++){
 					a= JSON.parse(puntos[i]);
 					var latlng = L.latLng(a["lat"], a["lng"]);
-					marker =  L.marker(latlng).addTo(map)
+					marker =  L.marker(latlng, {"draggable":true}).addTo(map)
 						.bindPopup(a["titulo"]+"<hr>"+a["descripcion"]).openPopup();
-				}
+					/*
+					marker.on('click', function(e) {
+						alert("Click");
+					});
+					*/
+					marker.on('dragend', function(e) {
+						deletePolygon(this);
+					});
+					
 
+				}
+				
+				
 
 				
 			}
